@@ -6,6 +6,7 @@ from listings.models import Listing
 from listings.models import Band
 from listings.forms import BandForm, ContactUsForm, ListingForm
 
+## Band views
 def band_list(request):
     bands = Band.objects.all()
     return render(request, 
@@ -30,7 +31,20 @@ def band_create(request):
             'listings/band_create.html',
             {'form': form})
 
+def band_update(request, id):
+    band = Band.objects.get(id=id)
+    if request.method == 'POST':
+        form = BandForm(request.POST, instance=band)
+        if form.is_valid():
+            band = form.save()
+            return redirect('band-detail', band.id)
+    else:
+        form = BandForm(instance = band)
+    return render(request,
+                  'listings/band_update.html',
+                  {'form': form})
 
+## Listing views
 def listing_list(request):
     listings = Listing.objects.all()
     return render(request, 
@@ -55,6 +69,7 @@ def listing_create(request):
             'listings/listing_create.html',
             {'form': form})
 
+## Contact views
 def contact(request):
 
     if request.method == 'POST':
@@ -77,5 +92,7 @@ def contact(request):
 def email_sent(request):
     return render(request, 'listings/email_sent.html')
 
+
+## About views
 def about_us(request):
     return render(request, 'listings/about_us.html')
