@@ -1,5 +1,7 @@
 {% extends 'listings/base.html' %} {% block content %}
 <h2>{{ listing.title }}</h2>
+<a href="{% url 'listing-update' listing.id %}">[editer]</a>
+<a href="{% url 'listing-delete' listing.id %}">[supprimer]</a>
 
 <ul>
   <li>Type : {{ listing.get_types_display }}</li>
